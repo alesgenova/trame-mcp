@@ -1,0 +1,69 @@
+[project]
+name = "trame-mcp"
+version = "0.1.0"
+description = "MCP server for trame applications"
+authors = [{ name = "Kitware Inc." }]
+dependencies = [
+    "trame-server>=3.4",
+    "aiohttp",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "Apache Software License" }
+keywords = ["Python", "Interactive", "Web", "Application", "Framework", "MCP", "LLM"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.optional-dependencies]
+app = ["trame>=3.11"]
+dataclass = ["trame-dataclass>=2.1"]
+dev = [
+    "pre-commit",
+    "ruff",
+    "pytest >=6",
+    "pytest-asyncio",
+    "pytest-cov >=3",
+    "trame>=3.11",
+    "trame-dataclass>=2.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = ["/src/trame_mcp/**/*.py"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/trame_mcp"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.ruff]
+
+[tool.ruff.lint]
+extend-select = [
+    "ARG", "B", "C4", "EM", "EXE", "G", "I", "ICN", "PGH", "PIE",
+    "PL", "PT", "PTH", "RET", "RUF", "SIM", "UP", "YTT",
+]
+ignore = [
+    "PLR09",
+    "PLR2004",
+    "ISC001",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Lazy imports are load-bearing in src: optional deps (trame, trame-dataclass)
+# and import-cycle avoidance.
+"src/**" = ["PLC0415"]
+"tests/**" = ["T20", "PLC0415", "S101", "ARG001"]
+"examples/**" = ["EXE003", "T201", "SIM117"]

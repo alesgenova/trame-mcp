@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "trame-app": {
+      "type": "http",
+      "url": "http://localhost:8080/mcp"
+    }
+  }
+}
